@@ -197,8 +197,11 @@ export const syncWithCloud = async (onDetailsUpdated, onRSVPsUpdated) => {
       if (onDetailsUpdated) onDetailsUpdated(merged);
     }
 
+    // `null` means the fetch failed (keep whatever is cached locally); an empty
+    // array is a legitimate "no RSVPs yet" — either way it must replace the
+    // built-in sample guests once we know the real state of the cloud.
     const cloudRSVPs = await fetchRSVPsFromCloud();
-    if (cloudRSVPs && cloudRSVPs.length > 0) {
+    if (cloudRSVPs !== null) {
       localStorage.setItem(RSVP_STORAGE_KEY, JSON.stringify(cloudRSVPs));
       if (onRSVPsUpdated) onRSVPsUpdated(cloudRSVPs);
     }
