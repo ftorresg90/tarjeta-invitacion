@@ -23,10 +23,10 @@ export default function SkyeEnvelope({ childName, age, heroImage, onOpen }) {
         <div className="absolute bottom-20 right-20 text-white/40 text-4xl animate-bounce-slow" style={{ animationDelay: '1s' }}>🎈</div>
       </div>
 
-      <div className="relative w-full max-w-md bg-white/95 backdrop-blur-md rounded-3xl p-6 sm:p-8 text-center shadow-2xl border-4 border-pink-200 animate-glow">
+      <div className="relative w-full max-w-md bg-white/95 backdrop-blur-md rounded-3xl p-5 sm:p-8 text-center shadow-2xl border-4 border-pink-200 animate-glow mx-2 sm:mx-0">
         
         {/* Hero Photo: Birthday girl or Skye */}
-        <div className="relative w-36 h-36 mx-auto mb-4 rounded-full overflow-hidden border-4 border-white shadow-xl bg-gradient-to-tr from-pink-400 to-amber-300 transform hover:scale-105 transition-transform">
+        <div className="relative w-28 h-28 sm:w-36 sm:h-36 mx-auto mb-3 sm:mb-4 rounded-full overflow-hidden border-4 border-white shadow-xl bg-gradient-to-tr from-pink-400 to-amber-300 transform hover:scale-105 transition-transform">
           <img
             src={heroImage || '/assets/skye_birthday.png'}
             alt={heroImage ? `Foto de ${childName}` : 'Skye PAW Patrol'}
@@ -34,29 +34,29 @@ export default function SkyeEnvelope({ childName, age, heroImage, onOpen }) {
           />
         </div>
 
-        <div className="paw-badge mb-3">
+        <div className="paw-badge mb-2 sm:mb-3 text-xs sm:text-sm">
           <span>🐾 ¡Misión Especial Skye! 🐾</span>
         </div>
 
-        <h1 className="text-3xl sm:text-4xl font-bold text-pink-600 mb-2 font-heading tracking-wide">
+        <h1 className="text-2xl sm:text-4xl font-bold text-pink-600 mb-2 font-heading tracking-wide leading-tight">
           ¡{childName} cumple {age} añitos!
         </h1>
         
-        <p className="text-gray-600 mb-6 font-medium leading-relaxed">
+        <p className="text-gray-600 text-xs sm:text-base mb-5 sm:mb-6 font-medium leading-relaxed">
           ¡A volar se ha dicho! Skye y la Patrulla Canina te invitan a una fiesta inolvidable.
         </p>
 
         {/* Envelope Touch Button */}
         <button
           onClick={handleOpen}
-          className="w-full btn-skye-primary py-4 text-xl flex items-center justify-center gap-3 group relative overflow-hidden"
+          className="w-full btn-skye-primary py-3.5 sm:py-4 text-base sm:text-xl flex items-center justify-center gap-2 sm:gap-3 group relative overflow-hidden"
         >
-          <Sparkles className="w-6 h-6 animate-spin text-amber-200" style={{ animationDuration: '4s' }} />
+          <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 animate-spin text-amber-200" style={{ animationDuration: '4s' }} />
           <span>Toca para abrir la invitación</span>
-          <Heart className="w-6 h-6 text-pink-200 fill-pink-300 group-hover:scale-125 transition-transform" />
+          <Heart className="w-5 h-5 sm:w-6 sm:h-6 text-pink-200 fill-pink-300 group-hover:scale-125 transition-transform" />
         </button>
 
-        <p className="text-xs text-pink-400 mt-4 font-semibold">
+        <p className="text-[11px] sm:text-xs text-pink-400 mt-3 sm:mt-4 font-semibold">
           ✨ Toca para desvelar la fiesta de la patrulla ✨
         </p>
       </div>

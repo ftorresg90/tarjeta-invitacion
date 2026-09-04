@@ -191,38 +191,38 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
 
   return createPortal(
     <>
-    <div className="fixed inset-0 z-[99999] bg-black/75 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-      <div className="relative w-full max-w-5xl bg-white rounded-3xl shadow-2xl border-4 border-pink-300 overflow-hidden my-6">
+    <div className="fixed inset-0 z-[99999] bg-black/75 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+      <div className="relative w-full max-w-5xl bg-white rounded-2xl sm:rounded-3xl shadow-2xl border-2 sm:border-4 border-pink-300 overflow-hidden my-2 sm:my-6">
         
         {/* Header Bar */}
-        <div className="bg-gradient-to-r from-pink-600 via-rose-500 to-amber-500 p-5 text-white flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-xl">
+        <div className="bg-gradient-to-r from-pink-600 via-rose-500 to-amber-500 p-3.5 sm:p-5 text-white flex items-center justify-between">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 rounded-full flex items-center justify-center text-lg sm:text-xl shrink-0">
               🐶
             </div>
             <div>
-              <h2 className="text-xl font-bold font-heading">Base de Operaciones - Anfitrión</h2>
-              <p className="text-xs text-white/80 font-medium">Panel de Control, Asistencia y Configuración</p>
+              <h2 className="text-base sm:text-xl font-bold font-heading">Base de Operaciones - Anfitrión</h2>
+              <p className="text-[10px] sm:text-xs text-white/80 font-medium">Panel de Control y Configuración</p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors text-white"
+            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors text-white shrink-0"
           >
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
         </div>
 
         {/* Auth Screen */}
         {!isAuthenticated ? (
-          <div className="p-8 max-w-md mx-auto text-center">
-            <div className="w-16 h-16 bg-pink-100 border-2 border-pink-300 rounded-full flex items-center justify-center mx-auto mb-4 text-pink-500">
-              <Lock className="w-8 h-8" />
+          <div className="p-6 sm:p-8 max-w-md mx-auto text-center">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 bg-pink-100 border-2 border-pink-300 rounded-full flex items-center justify-center mx-auto mb-4 text-pink-500">
+              <Lock className="w-7 h-7 sm:w-8 sm:h-8" />
             </div>
 
-            <h3 className="text-2xl font-bold text-gray-800 font-heading mb-2">Acceso Anfitrión</h3>
-            <p className="text-sm text-gray-600 mb-6 font-medium">
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 font-heading mb-2">Acceso Anfitrión</h3>
+            <p className="text-xs sm:text-sm text-gray-600 mb-6 font-medium">
               Ingresa el PIN de seguridad (PIN por defecto: <strong className="text-pink-600">1234</strong>)
             </p>
 
@@ -235,7 +235,7 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
                   placeholder="PIN Secreto"
                   value={pinInput}
                   onChange={(e) => setPinInput(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 rounded-2xl border-2 border-pink-200 focus:border-pink-500 focus:outline-none text-center font-bold text-xl tracking-widest"
+                  className="w-full pl-12 pr-4 py-3 rounded-2xl border-2 border-pink-200 focus:border-pink-500 focus:outline-none text-center font-bold text-lg sm:text-xl tracking-widest text-base sm:text-lg"
                 />
               </div>
 
@@ -243,20 +243,20 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
                 <p className="text-xs font-bold text-red-500 bg-red-50 p-2 rounded-lg">{loginError}</p>
               )}
 
-              <button type="submit" className="w-full btn-skye-primary py-3">
+              <button type="submit" className="w-full btn-skye-primary py-3 text-base">
                 Ingresar al Dashboard 🚀
               </button>
             </form>
           </div>
         ) : (
-          <div className="p-6">
+          <div className="p-3 sm:p-6">
             
             {/* Top Navigation Tabs */}
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-6 border-b border-gray-200 pb-4">
-              <div className="flex flex-wrap gap-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-4 sm:mb-6 border-b border-gray-200 pb-3 sm:pb-4">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 <button
                   onClick={() => setActiveTab('list')}
-                  className={`px-4 py-2 rounded-full font-bold text-sm transition-all ${
+                  className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-bold text-xs sm:text-sm transition-all ${
                     activeTab === 'list'
                       ? 'bg-pink-500 text-white shadow-md'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -266,17 +266,17 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
                 </button>
                 <button
                   onClick={() => setActiveTab('settings')}
-                  className={`px-4 py-2 rounded-full font-bold text-sm transition-all ${
+                  className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-bold text-xs sm:text-sm transition-all ${
                     activeTab === 'settings'
                       ? 'bg-pink-500 text-white shadow-md'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
-                  ⚙️ Datos del Evento
+                  ⚙️ Evento
                 </button>
                 <button
                   onClick={() => setActiveTab('timeline')}
-                  className={`px-4 py-2 rounded-full font-bold text-sm transition-all ${
+                  className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-bold text-xs sm:text-sm transition-all ${
                     activeTab === 'timeline'
                       ? 'bg-pink-500 text-white shadow-md'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -286,23 +286,23 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
                 </button>
                 <button
                   onClick={() => setActiveTab('photos')}
-                  className={`px-4 py-2 rounded-full font-bold text-sm transition-all ${
+                  className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-bold text-xs sm:text-sm transition-all ${
                     activeTab === 'photos'
                       ? 'bg-pink-500 text-white shadow-md'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
-                  🖼️ Fotos de la Galería
+                  🖼️ Fotos
                 </button>
               </div>
 
               <div className="flex gap-2">
                 <button
                   onClick={exportRSVPsToCSV}
-                  className="btn-skye-secondary py-2 text-xs flex items-center gap-1.5"
+                  className="btn-skye-secondary py-1.5 px-3 text-xs flex items-center justify-center gap-1.5 w-full sm:w-auto"
                 >
-                  <Download className="w-4 h-4" />
-                  <span>Exportar a Excel / CSV</span>
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Exportar CSV</span>
                 </button>
               </div>
             </div>

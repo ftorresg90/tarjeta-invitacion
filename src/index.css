@@ -140,9 +140,14 @@
     border: 3px solid #FFF0F5;
     border-radius: 28px;
     box-shadow: 0 12px 32px rgba(214, 51, 132, 0.18);
-    padding: 2rem;
+    padding: 1.25rem;
     position: relative;
     overflow: hidden;
+  }
+  @media (min-width: 640px) {
+    .skye-card {
+      padding: 2rem;
+    }
   }
 
   /* Golden paw badge pill */
