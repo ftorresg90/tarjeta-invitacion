@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { getEventDetails } from './services/storageService';
 import SkyeEnvelope from './components/SkyeEnvelope';
+import SkyeLoadingScreen from './components/SkyeLoadingScreen';
 import SkyeHeader from './components/SkyeHeader';
 import MissionDetails from './components/MissionDetails';
 import PawBadgePhotoGallery from './components/PawBadgePhotoGallery';
@@ -12,11 +13,17 @@ import { Heart } from 'lucide-react';
 export default function App() {
   const [eventDetails, setEventDetails] = useState(getEventDetails());
   const [isEnvelopeOpen, setIsEnvelopeOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [adminClickCount, setAdminClickCount] = useState(0);
 
   const handleEventDetailsUpdated = (newDetails) => {
     setEventDetails(newDetails);
+  };
+
+  const handleOpenEnvelope = () => {
+    setIsEnvelopeOpen(true);
+    setIsLoading(true);
   };
 
   // Secret triple-click on the dog emoji to open admin panel
@@ -43,7 +50,15 @@ export default function App() {
           childName={eventDetails.childName}
           age={eventDetails.age}
           heroImage={eventDetails.heroImage}
-          onOpen={() => setIsEnvelopeOpen(true)}
+          onOpen={handleOpenEnvelope}
+        />
+      )}
+
+      {/* Skye PAW Patrol Loading Transition Screen */}
+      {isLoading && (
+        <SkyeLoadingScreen
+          childName={eventDetails.childName}
+          onFinished={() => setIsLoading(false)}
         />
       )}
 

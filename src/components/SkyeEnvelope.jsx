@@ -8,7 +8,7 @@ export default function SkyeEnvelope({ childName, age, heroImage, onOpen }) {
     setIsOpen(true);
     setTimeout(() => {
       onOpen();
-    }, 900);
+    }, 300);
   };
 
   return (
