@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap');
+@import 'tailwindcss';
+
+/* ── Tailwind v4 Theme Customization ────────────────────────── */
+@theme {
+  --font-heading: 'Fredoka', cursive, sans-serif;
+  --font-body: 'Quicksand', sans-serif;
+
+  --color-skye-pink: #FF69B4;
+  --color-skye-pink-dark: #E83E8C;
+  --color-skye-magenta: #D63384;
+  --color-skye-purple: #9C27B0;
+  --color-skye-sky: #4FC3F7;
+  --color-skye-sky-light: #E0F7FA;
+  --color-skye-gold: #FFB703;
+  --color-skye-gold-light: #FFF3BF;
+
+  --animate-float: float 4s ease-in-out infinite;
+  --animate-bounce-slow: bounce-slow 2.5s ease-in-out infinite;
+  --animate-glow: pulse-glow 2s infinite;
+}
+
+/* ── Root / Base ─────────────────────────────────────────────── */
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background: linear-gradient(135deg, #FFF0F5 0%, #E0F7FA 50%, #FFF5F7 100%);
+    color: #333333;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #FFF0F5; }
+  ::-webkit-scrollbar-thumb { background: #FF69B4; border-radius: 10px; }
+}
+
+/* ── Keyframe Animations ─────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%      { transform: translateY(-12px) rotate(2deg); }
+}
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 15px rgba(255, 105, 180, 0.4); }
+  50%      { box-shadow: 0 0 25px rgba(255, 105, 180, 0.8), 0 0 35px rgba(255, 183, 3, 0.6); }
+}
+@keyframes cloudDrift {
+  0%   { transform: translateX(-5%) translateY(0px); }
+  50%  { transform: translateX(5%) translateY(-10px); }
+  100% { transform: translateX(-5%) translateY(0px); }
+}
+
+/* ── Custom Component Classes ────────────────────────────────── */
+@layer components {
+
+  /* Font helpers */
+  .font-heading {
+    font-family: var(--font-heading);
+  }
+
+  /* Background animated cloud pattern */
+  .bg-sky-pattern {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(255, 183, 3, 0.1) 0%, transparent 20%),
+      radial-gradient(circle at 90% 80%, rgba(79, 195, 247, 0.15) 0%, transparent 25%),
+      radial-gradient(circle at 50% 50%, rgba(255, 105, 180, 0.08) 0%, transparent 35%);
+  }
+
+  /* Primary CTA button */
+  .btn-skye-primary {
+    background: linear-gradient(135deg, #FF69B4 0%, #D63384 100%);
+    color: white;
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 600;
+    padding: 0.9rem 1.8rem;
+    border-radius: 999px;
+    border: 3px solid #FFFFFF;
+    box-shadow: 0 8px 20px rgba(214, 51, 132, 0.35);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    text-decoration: none;
+  }
+  .btn-skye-primary:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 12px 25px rgba(214, 51, 132, 0.45);
+  }
+  .btn-skye-primary:active {
+    transform: translateY(1px) scale(0.98);
+  }
+
+  /* Secondary CTA button */
+  .btn-skye-secondary {
+    background: linear-gradient(135deg, #4FC3F7 0%, #0288D1 100%);
+    color: white;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.8rem 1.5rem;
+    border-radius: 999px;
+    border: 2px solid #FFFFFF;
+    box-shadow: 0 6px 16px rgba(2, 136, 209, 0.25);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
+  }
+  .btn-skye-secondary:hover {
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  /* Glass card */
+  .skye-card {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    border: 3px solid #FFF0F5;
+    border-radius: 28px;
+    box-shadow: 0 12px 32px rgba(214, 51, 132, 0.18);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Golden paw badge pill */
+  .paw-badge {
+    background: linear-gradient(135deg, #FFB703 0%, #FB8500 100%);
+    color: #FFFFFF;
+    font-family: var(--font-heading);
+    padding: 0.35rem 1rem;
+    border-radius: 20px;
+    border: 2px solid white;
+    font-size: 0.9rem;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(251, 133, 0, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+}
+
+/* ── Utility additions ───────────────────────────────────────── */
+@utility border-3 {
+  border-width: 3px;
+}
+
+@utility animate-cloud-drift {
+  animation: cloudDrift 14s ease-in-out infinite;
+}
+
+@utility animate-fadeIn {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
