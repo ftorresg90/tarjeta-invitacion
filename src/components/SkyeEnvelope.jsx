@@ -5,10 +5,7 @@ export default function SkyeEnvelope({ childName, age, heroImage, onOpen }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpen = () => {
-    setIsOpen(true);
-    setTimeout(() => {
-      onOpen();
-    }, 300);
+    onOpen();
   };
 
   return (

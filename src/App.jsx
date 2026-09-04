@@ -62,62 +62,60 @@ export default function App() {
         />
       )}
 
-      {/* Main Public Invitation */}
-      {isEnvelopeOpen && (
-        <>
-          {/* Top Quick Bar */}
-          <nav className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-pink-200 shadow-sm px-4 py-2 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              {/* Triple-click secret to open admin */}
-              <span
-                className="text-xl cursor-default select-none"
-                onClick={handleDogClick}
-                title=""
-              >🐶</span>
-              <span className="font-heading font-bold text-pink-600 text-sm hidden sm:inline">
-                {eventDetails.childName} Cumple {eventDetails.age} Añitos
-              </span>
-            </div>
+      {/* Main Public Invitation (Pre-rendered in DOM so images and styles are 100% ready behind loading screen) */}
+      <div className={!isEnvelopeOpen ? 'opacity-0 pointer-events-none' : 'opacity-100 transition-opacity duration-500'}>
+        {/* Top Quick Bar */}
+        <nav className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-pink-200 shadow-sm px-4 py-2 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            {/* Triple-click secret to open admin */}
+            <span
+              className="text-xl cursor-default select-none"
+              onClick={handleDogClick}
+              title=""
+            >🐶</span>
+            <span className="font-heading font-bold text-pink-600 text-sm hidden sm:inline">
+              {eventDetails.childName} Cumple {eventDetails.age} Añitos
+            </span>
+          </div>
 
-            <div className="flex items-center gap-2">
-              <a
-                href="#rsvp"
-                className="btn-skye-primary py-1.5 px-3 text-xs sm:text-sm gap-1"
-              >
-                <Heart className="w-3.5 h-3.5 fill-current" />
-                <span>Confirmar Asistencia</span>
-              </a>
-            </div>
-          </nav>
+          <div className="flex items-center gap-2">
+            <a
+              href="#rsvp"
+              className="btn-skye-primary py-1.5 px-3 text-xs sm:text-sm gap-1"
+            >
+              <Heart className="w-3.5 h-3.5 fill-current" />
+              <span>Confirmar Asistencia</span>
+            </a>
+          </div>
+        </nav>
 
-          {/* Hero & Countdown */}
-          <SkyeHeader details={eventDetails} />
+        {/* Hero & Countdown */}
+        <SkyeHeader details={eventDetails} />
 
-          {/* Event Venue & Date Details */}
-          <MissionDetails details={eventDetails} />
+        {/* Event Venue & Date Details */}
+        <MissionDetails details={eventDetails} />
 
-          {/* Photo Gallery with Paw Badges */}
-          <PawBadgePhotoGallery photos={eventDetails.photos} childName={eventDetails.childName} />
+        {/* Photo Gallery with Paw Badges */}
+        <PawBadgePhotoGallery photos={eventDetails.photos} childName={eventDetails.childName} />
 
-          {/* Rescue Mission Timeline */}
-          <PupTimeline timeline={eventDetails.timeline} />
+        {/* Rescue Mission Timeline */}
+        <PupTimeline timeline={eventDetails.timeline} />
 
-          {/* RSVP Form */}
-          <RsvpSkyeForm childName={eventDetails.childName} eventDetails={eventDetails} />
+        {/* RSVP Form */}
+        <RsvpSkyeForm childName={eventDetails.childName} eventDetails={eventDetails} />
 
-          {/* Footer */}
-          <footer className="text-center py-8 px-4 text-gray-500 text-sm font-medium border-t border-pink-200 bg-white/60 backdrop-blur-sm mt-12">
-            <div className="max-w-md mx-auto">
-              <p className="flex items-center justify-center gap-1 text-pink-600 font-bold font-heading text-base mb-1">
-                <span>🐾 ¡A volar se ha dicho! 🐾</span>
-              </p>
-              <p className="text-xs text-gray-500">
-                Invitación Digital creada con mucho amor para la celebración de {eventDetails.childName}.
-              </p>
-            </div>
-          </footer>
-        </>
-      )}
+        {/* Footer */}
+        <footer className="text-center py-8 px-4 text-gray-500 text-sm font-medium border-t border-pink-200 bg-white/60 backdrop-blur-sm mt-12">
+          <div className="max-w-md mx-auto">
+            <p className="flex items-center justify-center gap-1 text-pink-600 font-bold font-heading text-base mb-1">
+              <span>🐾 ¡A volar se ha dicho! 🐾</span>
+            </p>
+            <p className="text-xs text-gray-500">
+              Invitación Digital creada con mucho amor para la celebración de {eventDetails.childName}.
+            </p>
+          </div>
+        </footer>
+      </div>
 
       {/* Admin Dashboard Modal */}
       <AdminDashboard
