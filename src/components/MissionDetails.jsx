@@ -18,7 +18,7 @@ export default function MissionDetails({ details }) {
       
       <div className="text-center mb-6 sm:mb-8">
         <div className="paw-badge mb-2">
-          <img src="/assets/skye_badge.png" alt="Skye" className="w-5 h-5 object-contain inline-block mr-1" />
+          <img src="/assets/skye_badge.jpg" alt="Skye" className="w-5 h-5 object-contain inline-block mr-1" />
           <span>🐾 Datos de la Misión 🐾</span>
         </div>
         <h2 className="text-2xl sm:text-4xl font-bold text-pink-600 font-heading">

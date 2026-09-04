@@ -61,9 +61,10 @@ export async function fetchRSVPsFromCloud(firebaseUrl = DEFAULT_FIREBASE_URL) {
 
 /**
  * Save new Guest RSVP to Cloud Database
+ * Returns the Firebase-generated key for the new RSVP, or null on failure
  */
 export async function saveRSVPToCloud(rsvpData, firebaseUrl = DEFAULT_FIREBASE_URL) {
-  if (!firebaseUrl) return false;
+  if (!firebaseUrl) return null;
   try {
     const cleanUrl = firebaseUrl.replace(/\/$/, '');
     const response = await fetch(`${cleanUrl}/rsvps.json`, {
@@ -71,9 +72,28 @@ export async function saveRSVPToCloud(rsvpData, firebaseUrl = DEFAULT_FIREBASE_U
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(rsvpData)
     });
-    return response.ok;
+    if (!response.ok) return null;
+    const data = await response.json();
+    return data.name;
   } catch (error) {
     console.error('Cloud Save RSVP error:', error);
+    return null;
+  }
+}
+
+/**
+ * Delete a Guest RSVP from Cloud Database
+ */
+export async function deleteRSVPFromCloud(cloudId, firebaseUrl = DEFAULT_FIREBASE_URL) {
+  if (!firebaseUrl || !cloudId) return false;
+  try {
+    const cleanUrl = firebaseUrl.replace(/\/$/, '');
+    const response = await fetch(`${cleanUrl}/rsvps/${cloudId}.json`, {
+      method: 'DELETE'
+    });
+    return response.ok;
+  } catch (error) {
+    console.error('Cloud Delete RSVP error:', error);
     return false;
   }
 }

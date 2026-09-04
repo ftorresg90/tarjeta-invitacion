@@ -31,7 +31,7 @@ export default function SkyeHeader({ details }) {
   return (
     <header 
       className="relative py-8 sm:py-14 px-3 sm:px-4 text-center overflow-hidden rounded-b-[32px] sm:rounded-b-[48px] shadow-2xl border-b-4 border-pink-300 bg-cover bg-center"
-      style={{ backgroundImage: "url('/assets/skye_header_sky_bg.png')" }}
+      style={{ backgroundImage: "url('/assets/skye_header_sky_bg.jpg')" }}
     >
       {/* Soft Sky Light Gradient Overlay for Smooth Transition */}
       <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-white/70 z-0 pointer-events-none" />
@@ -64,7 +64,7 @@ export default function SkyeHeader({ details }) {
         
         {/* Skye PAW Badge Shield Header */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-6 sm:py-2.5 rounded-full bg-white/95 backdrop-blur-md shadow-lg border-2 border-pink-300 text-pink-600 font-bold mb-3 sm:mb-4 animate-bounce-slow max-w-full">
-          <img src="/assets/skye_badge.png" alt="Placa Skye" className="w-6 h-6 sm:w-8 sm:h-8 object-contain shrink-0" />
+          <img src="/assets/skye_badge.jpg" alt="Placa Skye" className="w-6 h-6 sm:w-8 sm:h-8 object-contain shrink-0" />
           <span className="font-heading text-xs sm:text-base truncate">¡Misión: Celebrar los 2 añitos!</span>
           <span className="text-base sm:text-xl shrink-0">🌸</span>
         </div>

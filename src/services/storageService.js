@@ -113,7 +113,8 @@ import {
   saveEventDetailsToCloud,
   fetchEventDetailsFromCloud,
   saveRSVPToCloud,
-  fetchRSVPsFromCloud
+  fetchRSVPsFromCloud,
+  deleteRSVPFromCloud
 } from './cloudStorage';
 
 export const getEventDetails = () => {
@@ -165,8 +166,12 @@ export const saveRSVP = (rsvpData) => {
     };
     const updated = [newRSVP, ...current];
     localStorage.setItem(RSVP_STORAGE_KEY, JSON.stringify(updated));
-    // Asynchronously sync to cloud
-    saveRSVPToCloud(newRSVP);
+    // Asynchronously sync to cloud, then remember the cloud key so we can delete it later
+    saveRSVPToCloud(newRSVP).then((cloudId) => {
+      if (!cloudId) return;
+      const latest = getRSVPs().map((r) => (r.id === newRSVP.id ? { ...r, cloudId } : r));
+      localStorage.setItem(RSVP_STORAGE_KEY, JSON.stringify(latest));
+    });
     return newRSVP;
   } catch (error) {
     console.error('Error saving RSVP', error);
@@ -198,8 +203,13 @@ export const syncWithCloud = async (onDetailsUpdated, onRSVPsUpdated) => {
 export const deleteRSVP = (id) => {
   try {
     const current = getRSVPs();
+    const target = current.find(r => r.id === id);
     const updated = current.filter(r => r.id !== id);
     localStorage.setItem(RSVP_STORAGE_KEY, JSON.stringify(updated));
+    // Asynchronously remove from cloud too, so it doesn't come back on the next sync
+    if (target?.cloudId) {
+      deleteRSVPFromCloud(target.cloudId);
+    }
     return true;
   } catch (error) {
     console.error('Error deleting RSVP', error);
