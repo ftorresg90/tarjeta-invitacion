@@ -112,6 +112,8 @@ export const compressImage = (file, maxWidth = 1000, maxHeight = 1000, quality =
 import {
   saveEventDetailsToCloud,
   fetchEventDetailsFromCloud,
+  savePhotosToCloud,
+  fetchPhotosFromCloud,
   saveRSVPToCloud,
   fetchRSVPsFromCloud,
   deleteRSVPFromCloud
@@ -137,8 +139,10 @@ export const getEventDetails = () => {
 export const saveEventDetails = (details) => {
   try {
     localStorage.setItem(EVENT_STORAGE_KEY, JSON.stringify(details));
-    // Asynchronously sync to cloud
+    // Asynchronously sync to cloud. Photos are pushed as their own (larger, slower)
+    // request so a big gallery never delays syncing the PIN, date, address, etc.
     saveEventDetailsToCloud(details);
+    savePhotosToCloud(details.photos);
     return true;
   } catch (error) {
     console.error('Error saving event details to localStorage', error);
@@ -184,10 +188,13 @@ export const saveRSVP = (rsvpData) => {
  */
 export const syncWithCloud = async (onDetailsUpdated, onRSVPsUpdated) => {
   try {
+    // Core fields (PIN, date, address, etc.) are small — sync these first so they're
+    // never held up waiting on the photo gallery below.
     const cloudDetails = await fetchEventDetailsFromCloud();
     if (cloudDetails) {
-      localStorage.setItem(EVENT_STORAGE_KEY, JSON.stringify(cloudDetails));
-      if (onDetailsUpdated) onDetailsUpdated(cloudDetails);
+      const merged = { ...getEventDetails(), ...cloudDetails };
+      localStorage.setItem(EVENT_STORAGE_KEY, JSON.stringify(merged));
+      if (onDetailsUpdated) onDetailsUpdated(merged);
     }
 
     const cloudRSVPs = await fetchRSVPsFromCloud();
@@ -197,6 +204,19 @@ export const syncWithCloud = async (onDetailsUpdated, onRSVPsUpdated) => {
     }
   } catch (err) {
     console.warn('Sync with cloud notice:', err);
+  }
+
+  // Photo gallery can be large — fetch it separately so a slow connection never
+  // blocks the core event details (and admin PIN) above from updating.
+  try {
+    const cloudPhotos = await fetchPhotosFromCloud();
+    if (cloudPhotos && cloudPhotos.length > 0) {
+      const merged = { ...getEventDetails(), photos: cloudPhotos };
+      localStorage.setItem(EVENT_STORAGE_KEY, JSON.stringify(merged));
+      if (onDetailsUpdated) onDetailsUpdated(merged);
+    }
+  } catch (err) {
+    console.warn('Sync photos with cloud notice:', err);
   }
 };
 

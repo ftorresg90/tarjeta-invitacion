@@ -22,19 +22,57 @@ export async function fetchEventDetailsFromCloud(firebaseUrl = DEFAULT_FIREBASE_
 
 /**
  * Save Event Details to Cloud Database
+ * `photos` is synced separately (see savePhotosToCloud) so this stays small and fast —
+ * the admin PIN and other core fields shouldn't have to wait on a multi-MB photo payload.
  */
 export async function saveEventDetailsToCloud(details, firebaseUrl = DEFAULT_FIREBASE_URL) {
   if (!firebaseUrl) return false;
   try {
+    const { photos, ...meta } = details;
     const cleanUrl = firebaseUrl.replace(/\/$/, '');
     const response = await fetch(`${cleanUrl}/eventDetails.json`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(details)
+      body: JSON.stringify(meta)
     });
     return response.ok;
   } catch (error) {
     console.error('Cloud Save Event Details error:', error);
+    return false;
+  }
+}
+
+/**
+ * Fetch the photo gallery from Cloud Database
+ */
+export async function fetchPhotosFromCloud(firebaseUrl = DEFAULT_FIREBASE_URL) {
+  if (!firebaseUrl) return null;
+  try {
+    const cleanUrl = firebaseUrl.replace(/\/$/, '');
+    const response = await fetch(`${cleanUrl}/photos.json`);
+    if (!response.ok) return null;
+    return await response.json();
+  } catch (error) {
+    console.warn('Cloud Fetch Photos notice:', error);
+    return null;
+  }
+}
+
+/**
+ * Save the photo gallery to Cloud Database
+ */
+export async function savePhotosToCloud(photos, firebaseUrl = DEFAULT_FIREBASE_URL) {
+  if (!firebaseUrl) return false;
+  try {
+    const cleanUrl = firebaseUrl.replace(/\/$/, '');
+    const response = await fetch(`${cleanUrl}/photos.json`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(photos)
+    });
+    return response.ok;
+  } catch (error) {
+    console.error('Cloud Save Photos error:', error);
     return false;
   }
 }
