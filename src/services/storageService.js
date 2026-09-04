@@ -109,6 +109,13 @@ export const compressImage = (file, maxWidth = 1000, maxHeight = 1000, quality =
   });
 };
 
+import {
+  saveEventDetailsToCloud,
+  fetchEventDetailsFromCloud,
+  saveRSVPToCloud,
+  fetchRSVPsFromCloud
+} from './cloudStorage';
+
 export const getEventDetails = () => {
   try {
     const data = localStorage.getItem(EVENT_STORAGE_KEY);
@@ -129,6 +136,8 @@ export const getEventDetails = () => {
 export const saveEventDetails = (details) => {
   try {
     localStorage.setItem(EVENT_STORAGE_KEY, JSON.stringify(details));
+    // Asynchronously sync to cloud
+    saveEventDetailsToCloud(details);
     return true;
   } catch (error) {
     console.error('Error saving event details to localStorage', error);
@@ -156,10 +165,33 @@ export const saveRSVP = (rsvpData) => {
     };
     const updated = [newRSVP, ...current];
     localStorage.setItem(RSVP_STORAGE_KEY, JSON.stringify(updated));
+    // Asynchronously sync to cloud
+    saveRSVPToCloud(newRSVP);
     return newRSVP;
   } catch (error) {
     console.error('Error saving RSVP', error);
     return null;
+  }
+};
+
+/**
+ * Synchronize local storage with Cloud Database
+ */
+export const syncWithCloud = async (onDetailsUpdated, onRSVPsUpdated) => {
+  try {
+    const cloudDetails = await fetchEventDetailsFromCloud();
+    if (cloudDetails) {
+      localStorage.setItem(EVENT_STORAGE_KEY, JSON.stringify(cloudDetails));
+      if (onDetailsUpdated) onDetailsUpdated(cloudDetails);
+    }
+
+    const cloudRSVPs = await fetchRSVPsFromCloud();
+    if (cloudRSVPs && cloudRSVPs.length > 0) {
+      localStorage.setItem(RSVP_STORAGE_KEY, JSON.stringify(cloudRSVPs));
+      if (onRSVPsUpdated) onRSVPsUpdated(cloudRSVPs);
+    }
+  } catch (err) {
+    console.warn('Sync with cloud notice:', err);
   }
 };
 

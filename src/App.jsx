@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { getEventDetails } from './services/storageService';
+import React, { useState, useEffect } from 'react';
+import { getEventDetails, syncWithCloud } from './services/storageService';
 import SkyeEnvelope from './components/SkyeEnvelope';
 import SkyeLoadingScreen from './components/SkyeLoadingScreen';
 import SkyeHeader from './components/SkyeHeader';
@@ -16,6 +16,13 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [adminClickCount, setAdminClickCount] = useState(0);
+
+  useEffect(() => {
+    // Automatically fetch latest event details & RSVPs from cloud database on load
+    syncWithCloud((cloudDetails) => {
+      setEventDetails(cloudDetails);
+    });
+  }, []);
 
   const handleEventDetailsUpdated = (newDetails) => {
     setEventDetails(newDetails);
