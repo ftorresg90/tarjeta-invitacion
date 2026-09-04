@@ -52,11 +52,17 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
 
   useEffect(() => {
     if (isOpen) {
+      document.body.style.overflow = 'hidden';
       const currentDetails = getEventDetails();
       setEventDetails(currentDetails);
       setEditForm(currentDetails);
       setRsvps(getRSVPs());
+    } else {
+      document.body.style.overflow = '';
     }
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [isOpen]);
 
   const handleLogin = (e) => {
@@ -191,17 +197,17 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
 
   return createPortal(
     <>
-    <div className="fixed inset-0 z-[99999] bg-black/75 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
-      <div className="relative w-full max-w-5xl bg-white rounded-2xl sm:rounded-3xl shadow-2xl border-2 sm:border-4 border-pink-300 overflow-hidden my-2 sm:my-6">
+    <div className="fixed inset-0 z-[99999] bg-black/80 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4 h-[100dvh] w-screen overflow-hidden">
+      <div className="relative w-full max-w-5xl bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl border-t-4 sm:border-4 border-pink-300 overflow-hidden flex flex-col h-[100dvh] sm:h-auto sm:max-h-[90vh]">
         
         {/* Header Bar */}
-        <div className="bg-gradient-to-r from-pink-600 via-rose-500 to-amber-500 p-3.5 sm:p-5 text-white flex items-center justify-between">
-          <div className="flex items-center gap-2.5 sm:gap-3">
+        <div className="shrink-0 bg-gradient-to-r from-pink-600 via-rose-500 to-amber-500 p-3 sm:p-4 text-white flex items-center justify-between z-20">
+          <div className="flex items-center gap-2 sm:gap-3">
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 rounded-full flex items-center justify-center text-lg sm:text-xl shrink-0">
               🐶
             </div>
             <div>
-              <h2 className="text-base sm:text-xl font-bold font-heading">Base de Operaciones - Anfitrión</h2>
+              <h2 className="text-sm sm:text-xl font-bold font-heading">Base de Operaciones - Anfitrión</h2>
               <p className="text-[10px] sm:text-xs text-white/80 font-medium">Panel de Control y Configuración</p>
             </div>
           </div>
@@ -216,7 +222,7 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
 
         {/* Auth Screen */}
         {!isAuthenticated ? (
-          <div className="p-6 sm:p-8 max-w-md mx-auto text-center">
+          <div className="flex-1 overflow-y-auto p-6 sm:p-8 max-w-md mx-auto text-center flex flex-col justify-center">
             <div className="w-14 h-14 sm:w-16 sm:h-16 bg-pink-100 border-2 border-pink-300 rounded-full flex items-center justify-center mx-auto mb-4 text-pink-500">
               <Lock className="w-7 h-7 sm:w-8 sm:h-8" />
             </div>
@@ -249,17 +255,17 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
             </form>
           </div>
         ) : (
-          <div className="p-3 sm:p-6">
+          <div className="flex-1 flex flex-col min-h-0 overflow-hidden bg-white">
             
             {/* Top Navigation Tabs */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-4 sm:mb-6 border-b border-gray-200 pb-3 sm:pb-4">
+            <div className="shrink-0 px-3 py-2 sm:px-6 sm:py-3 border-b border-gray-200 bg-gray-50 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 z-10">
               <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 <button
                   onClick={() => setActiveTab('list')}
                   className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-bold text-xs sm:text-sm transition-all ${
                     activeTab === 'list'
                       ? 'bg-pink-500 text-white shadow-md'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-100'
                   }`}
                 >
                   📋 Asistentes ({rsvps.length})
@@ -269,7 +275,7 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
                   className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-bold text-xs sm:text-sm transition-all ${
                     activeTab === 'settings'
                       ? 'bg-pink-500 text-white shadow-md'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-100'
                   }`}
                 >
                   ⚙️ Evento
@@ -279,7 +285,7 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
                   className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-bold text-xs sm:text-sm transition-all ${
                     activeTab === 'timeline'
                       ? 'bg-pink-500 text-white shadow-md'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-100'
                   }`}
                 >
                   ⏰ Itinerario
@@ -289,7 +295,7 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
                   className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-bold text-xs sm:text-sm transition-all ${
                     activeTab === 'photos'
                       ? 'bg-pink-500 text-white shadow-md'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-100'
                   }`}
                 >
                   🖼️ Fotos
@@ -306,6 +312,9 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
                 </button>
               </div>
             </div>
+
+            {/* Scrollable Tab Content Container */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6 pb-28 sm:pb-8">
 
             {/* Tab 1: Guest List & Metrics */}
             {activeTab === 'list' && (
@@ -428,7 +437,7 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
 
             {/* Tab 2: General Event Details */}
             {activeTab === 'settings' && (
-              <form onSubmit={handleSaveSettings} className="space-y-4 max-w-2xl mx-auto max-h-[60vh] overflow-y-auto pr-2">
+              <form onSubmit={handleSaveSettings} className="space-y-4 max-w-2xl mx-auto">
 
                 {/* Hero Image Uploader */}
                 <div className="p-4 bg-pink-50/60 rounded-2xl border-2 border-pink-200 space-y-3">
@@ -496,7 +505,7 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
                       required
                       value={editForm.childName}
                       onChange={(e) => setEditForm({ ...editForm, childName: e.target.value })}
-                      className="w-full p-2.5 border rounded-xl font-medium text-sm"
+                      className="w-full p-2.5 border rounded-xl font-medium text-base sm:text-sm"
                     />
                   </div>
 
@@ -507,7 +516,7 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
                       required
                       value={editForm.age}
                       onChange={(e) => setEditForm({ ...editForm, age: parseInt(e.target.value) || 2 })}
-                      className="w-full p-2.5 border rounded-xl font-medium text-sm"
+                      className="w-full p-2.5 border rounded-xl font-medium text-base sm:text-sm"
                     />
                   </div>
                 </div>
@@ -520,7 +529,7 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
                       required
                       value={editForm.date}
                       onChange={(e) => setEditForm({ ...editForm, date: e.target.value })}
-                      className="w-full p-2.5 border rounded-xl font-medium text-sm"
+                      className="w-full p-2.5 border rounded-xl font-medium text-base sm:text-sm"
                     />
                   </div>
                   <div>
@@ -530,7 +539,7 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
                       required
                       value={editForm.time}
                       onChange={(e) => setEditForm({ ...editForm, time: e.target.value })}
-                      className="w-full p-2.5 border rounded-xl font-medium text-sm"
+                      className="w-full p-2.5 border rounded-xl font-medium text-base sm:text-sm"
                       placeholder="Ej: 16:00 HRS"
                     />
                   </div>
@@ -540,7 +549,7 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
                       type="text"
                       value={editForm.endTime || ''}
                       onChange={(e) => setEditForm({ ...editForm, endTime: e.target.value })}
-                      className="w-full p-2.5 border rounded-xl font-medium text-sm"
+                      className="w-full p-2.5 border rounded-xl font-medium text-base sm:text-sm"
                       placeholder="Ej: 20:00 HRS"
                     />
                   </div>
@@ -553,7 +562,7 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
                     required
                     value={editForm.locationName}
                     onChange={(e) => setEditForm({ ...editForm, locationName: e.target.value })}
-                    className="w-full p-2.5 border rounded-xl font-medium text-sm"
+                    className="w-full p-2.5 border rounded-xl font-medium text-base sm:text-sm"
                   />
                 </div>
 
@@ -564,7 +573,7 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
                     required
                     value={editForm.address}
                     onChange={(e) => setEditForm({ ...editForm, address: e.target.value })}
-                    className="w-full p-2.5 border rounded-xl font-medium text-sm"
+                    className="w-full p-2.5 border rounded-xl font-medium text-base sm:text-sm"
                   />
                 </div>
 
@@ -575,7 +584,7 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
                     required
                     value={editForm.googleMapsUrl}
                     onChange={(e) => setEditForm({ ...editForm, googleMapsUrl: e.target.value })}
-                    className="w-full p-2.5 border rounded-xl font-medium text-sm"
+                    className="w-full p-2.5 border rounded-xl font-medium text-base sm:text-sm"
                   />
                 </div>
 
@@ -585,7 +594,7 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
                     type="text"
                     value={editForm.dressCode}
                     onChange={(e) => setEditForm({ ...editForm, dressCode: e.target.value })}
-                    className="w-full p-2.5 border rounded-xl font-medium text-sm"
+                    className="w-full p-2.5 border rounded-xl font-medium text-base sm:text-sm"
                   />
                 </div>
 
@@ -596,7 +605,7 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
                     required
                     value={editForm.adminPin}
                     onChange={(e) => setEditForm({ ...editForm, adminPin: e.target.value })}
-                    className="w-full p-2.5 border rounded-xl font-medium text-sm font-bold tracking-widest text-center"
+                    className="w-full p-2.5 border rounded-xl font-medium text-base sm:text-sm font-bold tracking-widest text-center"
                   />
                 </div>
 
@@ -609,7 +618,7 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
 
             {/* Tab 3: Itinerary Editor */}
             {activeTab === 'timeline' && (
-              <form onSubmit={handleSaveSettings} className="space-y-4 max-w-2xl mx-auto max-h-[60vh] overflow-y-auto pr-2">
+              <form onSubmit={handleSaveSettings} className="space-y-4 max-w-2xl mx-auto">
                 <div className="flex items-center justify-between mb-2">
                   <h4 className="font-bold text-gray-800 font-heading">Modificar Itinerario de la Fiesta</h4>
                   <button
@@ -676,7 +685,7 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
 
             {/* Tab 4: Photo Gallery Editor */}
             {activeTab === 'photos' && (
-              <form onSubmit={handleSaveSettings} className="space-y-4 max-w-2xl mx-auto max-h-[60vh] overflow-y-auto pr-2">
+              <form onSubmit={handleSaveSettings} className="space-y-4 max-w-2xl mx-auto">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
                   <div>
                     <h4 className="font-bold text-gray-800 font-heading text-lg">Galería de Fotos de la Cumpleañera</h4>
@@ -769,6 +778,7 @@ export default function AdminDashboard({ isOpen, onClose, onEventDetailsUpdated 
               </form>
             )}
 
+            </div>
           </div>
         )}
 

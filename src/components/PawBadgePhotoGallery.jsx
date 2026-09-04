@@ -6,10 +6,12 @@ export default function PawBadgePhotoGallery({ photos, childName }) {
   const [activeIndex, setActiveIndex] = useState(null);
   const scrollRef = useRef(null);
 
-  // Keyboard navigation for modal
+  // Keyboard navigation & body scroll lock for modal
   useEffect(() => {
     if (activeIndex === null) return;
     
+    document.body.style.overflow = 'hidden';
+
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
         setActiveIndex(null);
@@ -21,7 +23,10 @@ export default function PawBadgePhotoGallery({ photos, childName }) {
     };
     
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [activeIndex, photos?.length]);
 
   if (!photos || photos.length === 0) return null;
@@ -123,7 +128,7 @@ export default function PawBadgePhotoGallery({ photos, childName }) {
       {/* Modal Zoom Rendered via Portal to document.body (z-[99999] Top Level) */}
       {activeIndex !== null && createPortal(
         <div
-          className="fixed inset-0 z-[99999] bg-black/90 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 animate-fadeIn"
+          className="fixed inset-0 z-[99999] bg-black/90 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 animate-fadeIn h-[100dvh] w-screen overflow-hidden"
           onClick={() => setActiveIndex(null)}
         >
           {/* Modal Navigation Buttons */}
